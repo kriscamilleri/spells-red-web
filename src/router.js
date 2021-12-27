@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import SingleSpell from './pages/SingleSpell.vue'
 import Home from './pages/Home.vue'
 
 export default createRouter({
@@ -8,10 +8,10 @@ export default createRouter({
     {
       path: '/',
       component: Home,
-      },
-       {
-      path: '/Hello',
-      component: HelloWorld,
+    },
+    {
+      path: '/Spell/:id',
+      component: SingleSpell,
     }
   ]
 })
