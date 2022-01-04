@@ -1,7 +1,8 @@
 <template>
-    <nav class="p-5 flex justify-between">
-        <a href="#" class="font-bold" @click="toggleSidebar()">Sidebar</a>
-        <router-link to="/" class="font-bold">Spells.Red</router-link>
+    <nav class="px-5 py-3 flex justify-between">
+        <a href="#" class="font-bold text-xl leading-loose" @click="toggleSidebar()">Sidebar</a>
+        <slot name="nav"></slot>
+        <router-link to="/" class="font-bold text-xl leading-loose">Spells.Red</router-link>
     </nav>
     <hr />
     <div class="p-5">
