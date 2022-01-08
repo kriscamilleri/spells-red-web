@@ -12,15 +12,33 @@
       </SpellCard>
     </div>
     <template v-slot:nav>
-      <span class="border border-gray-300 bg-gray-50">
-        <label for="#search" class="my-2.5 px-3">Search</label>
-        <input id="search" class="bg-white leading-loose m-0 pl-3 px-2 py-1 w-[22rem]" />
-      </span>
+      <div class="inline-block">
+        <div class="border border-gray-300 bg-gray-50 inline py-2.5">
+          <label for="#search" class="my-2.5 px-3 inline font-medium">Search</label>
+          <input
+            id="search"
+            class="bg-white leading-loose m-0 pl-3 px-2 py-1 min-w-[18rem] focus:ring-2 focus:ring-gray-300 focus:outline-0"
+            v-model="searchText"
+          />
+        </div>
+
+        <a
+          href="#"
+          class="inline border hover:bg-gray-50 focus:bg-gray-50 focus:shadow-sm bg-white p-2.5 text-center border-gray-300 focus:ring-gray-300 focus:ring-2 px-3 mx-1"
+        >
+          <span class="inline-block">
+            <span class="font-medium">Filter</span>
+            <span class="align-middle ml-0.5">
+              <unicon fill name="filter" height="1rem" />
+            </span>
+          </span>
+        </a>
+      </div>
     </template>
     <VueEternalLoading
       v-if="spells.length > 0"
       :load="load"
-      :is-initial="loaderIsInitial"
+      v-model:is-initial="loaderIsInitial"
       class="text-center"
     ></VueEternalLoading>
   </SlideOverFrame>
@@ -35,9 +53,10 @@ import SpellCard from '@/components/SpellCard.vue';
 export default {
   data() {
     return {
-      loaderIsInitial: false,
+      loaderIsInitial: true,
       pageSize: 10,
-      page: 0
+      page: 0,
+      searchText: ''
     }
   },
   methods: {
@@ -78,21 +97,53 @@ export default {
           break;
       }
       return `${level}${suffix} Level`
-    }
-
+    },
+    filterSearch(spells, searchText) {
+      if (searchText.length > 0) {
+        spells = spells.filter(function (spell) {
+          let lowerText = searchText.toLowerCase();
+          return spell.name.toLowerCase().trim().indexOf(lowerText) > -1;
+        });
+      }
+      return spells;
+    },
   },
   computed: {
     spells() {
       return this.$store.getters.getSpells
     },
     renderedSpells() {
-      const allSpells = this.$store.getters.getSpells;
+      const allSpells = this.filteredSpells;
       const results = allSpells.slice(0, (this.page * this.pageSize));
       return results;
-    }
+    },
+    filteredSpells() {
+      var searchText = this.searchText;
+      if (this.spells) {
+        let spells = this.spells;
+        // spells = this.filterSpellBook(spells);
+        spells = this.filterSearch(spells, searchText);
+        // spells = this.filterClasses(spells);
+        // spells = this.filterLevels(spells);
+        // spells = this.filterSources(spells);
+        // spells = this.filterSchools(spells);
+        // spells = this.filterConcentration(spells);
+        // spells = this.filterRitual(spells);
+        // spells = this.sortSpells(spells);
+        return spells;
+      }
+      return [];
+    },
   },
   mounted() {
     this.$store.dispatch('fetchSpells')
+  },
+  watch: {
+    searchText() {
+      console.log('boop')
+      this.page = 1;
+      this.loaderIsInitial = true;
+    }
   },
   components: {
     SlideOverFrame,
