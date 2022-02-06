@@ -2,6 +2,11 @@ export const spellStore = {
     state: () => ({
         dataLoading: false,
         spells: [],
+        spellMeta: {
+            classes: [],
+            subClasses: [],
+            variantClasses: [],
+        },
         spellBookSpells: [],
         selectedSpell: {},
         spellBookListNames: {},
@@ -33,6 +38,8 @@ export const spellStore = {
         },
         setSpells(state, spells) {
             state.spells = spells;
+        },
+        setClassMeta(state, spells) {
         }
     },
     getters: {
@@ -41,6 +48,9 @@ export const spellStore = {
         },
         getSelectedSpell(state) {
             return state.selectedSpell;
+        },
+        getClasses(state) {
+            // return state.spells.map(c => c.)
         }
     }
 }

@@ -26,22 +26,19 @@ export default {
       );
       return filteredSpells;
     },
-    filterClasses(spells) {
-      let classFilters = this.classFilters.map(function (value) {
-        return value[0].toUpperCase() + value.slice(1);
-      });
-      if (this.classFilters.length != this.classes.length) {
-        spells = spells.filter(function (spell) {
-          let x = spell.class.split(",").map((c) => {
-            return c.trim();
-          });
-          // console.log(x);
-          let intersection = x.filter((n) => classFilters.includes(n));
-          if (intersection.length > 0) {
-            return spell;
-          }
-        });
-      }
+    filterClasses(spells, classList) {
+      // if (this.classFilters.length != this.classes.length) {
+      //   spells = spells.filter(function (spell) {
+      //     let x = spell.class.split(",").map((c) => {
+      //       return c.trim();
+      //     });
+      //     // console.log(x);
+      //     let intersection = x.filter((n) => classFilters.includes(n));
+      //     if (intersection.length > 0) {
+      //       return spell;
+      //     }
+      //   });
+      // }
       return spells;
     },
     filterLevels(spells) {

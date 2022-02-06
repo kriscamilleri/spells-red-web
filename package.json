@@ -9,6 +9,7 @@
   "dependencies": {
     "@ts-pro/vue-eternal-loading": "^1.2.0",
     "vue": "^3.2.25",
+    "vue-final-modal": "^3.4.3",
     "vue-router": "^4.0.12",
     "vue-unicons": "^3.3.1",
     "vuex": "^4.0.2"

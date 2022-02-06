@@ -5,7 +5,12 @@ import "./index.css";
 import router from "./router";
 import { spellStore } from "./store/spells.js";
 import Unicon from "vue-unicons";
+import { $vfm, VueFinalModal, ModalsContainer } from 'vue-final-modal'
+
+
 import {
+
+  uniCheck,
   uniArrowUp,
   uniArrowUpLeft,
   uniArrowUpRight,
@@ -56,9 +61,11 @@ import {
   uniUser,
   uniFilter,
   uniFilterSlash,
+  uniCheckCircle,
 } from "vue-unicons/dist/icons";
 
 Unicon.add([
+  uniCheck,
   uniArrowUp,
   uniArrowUpLeft,
   uniArrowUpRight,
@@ -109,6 +116,7 @@ Unicon.add([
   uniUser,
   uniFilter,
   uniFilterSlash,
+  uniCheckCircle,
 ]);
 
 const store = createStore({
@@ -117,4 +125,9 @@ const store = createStore({
   },
 });
 
-createApp(App).use(Unicon).use(router).use(store).mount("#app");
+const app = createApp(App);
+
+app.use(Unicon).use(router).use(store).mount("#app");
+
+app.component('VueFinalModal', VueFinalModal)
+app.component('ModalsContainer', ModalsContainer)

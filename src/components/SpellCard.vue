@@ -1,5 +1,5 @@
 <template>
-    <div class="border p-5 max-w-sm m-2">
+    <div class="border p-5 max-w-sm m-2 cursor-pointer" @click="show = true">
         <h3 class="text-xl font-bold mb-1">{{ title }}</h3>
         <span v-for="(field, i) in fields" :key="i">
             <span v-if="field.showLabel" class="inline-block">
@@ -19,7 +19,14 @@ label {
 }
 </style>
 <script>
+
 export default {
+    components: {
+    },
+    data() {
+        return {
+        }
+    },
     methods: {
 
     },

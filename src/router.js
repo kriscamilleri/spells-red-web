@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import SingleSpell from './pages/SingleSpell.vue'
+import SingleSpell from './pages/Spell.vue'
 import Home from './pages/Home.vue'
 
 export default createRouter({

@@ -1,0 +1,338 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "type": "array",
+    "items": {
+        "$ref": "#/definitions/Spell"
+    },
+    "definitions": {
+        "Spell": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "school": {
+                    "$ref": "#/definitions/School"
+                },
+                "class": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Class"
+                    }
+                },
+                "range": {
+                    "$ref": "#/definitions/Range"
+                },
+                "duration": {
+                    "$ref": "#/definitions/Duration"
+                },
+                "casting": {
+                    "$ref": "#/definitions/Casting"
+                },
+                "components": {
+                    "$ref": "#/definitions/Components"
+                },
+                "description": {
+                    "$ref": "#/definitions/Description"
+                },
+                "higher": {
+                    "$ref": "#/definitions/Higher"
+                },
+                "isConcentration": {
+                    "type": "boolean"
+                },
+                "isRitual": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "casting",
+                "class",
+                "components",
+                "description",
+                "duration",
+                "id",
+                "level",
+                "name",
+                "page",
+                "range",
+                "school"
+            ],
+            "title": "Spell"
+        },
+        "Casting": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "unit": {
+                    "$ref": "#/definitions/CastingUnit"
+                },
+                "amount": {
+                    "type": "integer"
+                },
+                "condition": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "amount",
+                "unit"
+            ],
+            "title": "Casting"
+        },
+        "Components": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "isVerbal": {
+                    "type": "boolean"
+                },
+                "isSomatic": {
+                    "type": "boolean"
+                },
+                "isMaterial": {
+                    "type": "boolean"
+                },
+                "material": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "isMaterial",
+                "isSomatic",
+                "isVerbal"
+            ],
+            "title": "Components"
+        },
+        "Description": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "paragraph": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    }
+                },
+                "list": {
+                    "$ref": "#/definitions/List"
+                },
+                "table": {
+                    "$ref": "#/definitions/Table"
+                }
+            },
+            "required": [
+                "paragraph"
+            ],
+            "title": "Description"
+        },
+        "List": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "rows": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "null"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    }
+                },
+                "headers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "rows"
+            ],
+            "title": "List"
+        },
+        "Table": {
+            "type": "object",
+            "additionalProperties": false,
+            "title": "Table"
+        },
+        "Duration": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "$ref": "#/definitions/DurationType"
+                },
+                "amount": {
+                    "type": "integer"
+                },
+                "ends": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/End"
+                    }
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "title": "Duration"
+        },
+        "Higher": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "paragraph": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "paragraph"
+            ],
+            "title": "Higher"
+        },
+        "Range": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "$ref": "#/definitions/RangeType"
+                },
+                "distance": {
+                    "$ref": "#/definitions/Distance"
+                }
+            },
+            "required": [
+                "distance",
+                "type"
+            ],
+            "title": "Range"
+        },
+        "Distance": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "unit": {
+                    "$ref": "#/definitions/DistanceUnit"
+                },
+                "amount": {
+                    "type": "integer"
+                }
+            },
+            "required": [],
+            "title": "Distance"
+        },
+        "CastingUnit": {
+            "type": "string",
+            "enum": [
+                "minute",
+                "action",
+                "reaction",
+                "hour",
+                "bonus"
+            ],
+            "title": "CastingUnit"
+        },
+        "Class": {
+            "type": "string",
+            "enum": [
+                "Bard",
+                "Sorcerer",
+                "Wizard",
+                "Warlock",
+                "Cleric",
+                "Artificer",
+                "Ranger",
+                "Druid",
+                "Artificer (Revisited)",
+                "Paladin",
+                "Monk"
+            ],
+            "title": "Class"
+        },
+        "End": {
+            "type": "string",
+            "enum": [
+                "dispel",
+                "trigger"
+            ],
+            "title": "End"
+        },
+        "DurationType": {
+            "type": "string",
+            "enum": [
+                "hour",
+                "instant",
+                "minute",
+                "permanent",
+                "round",
+                "day",
+                "special"
+            ],
+            "title": "DurationType"
+        },
+        "DistanceUnit": {
+            "type": "string",
+            "enum": [
+                "touch",
+                "feet",
+                "self",
+                "miles",
+                "sight",
+                "unlimited"
+            ],
+            "title": "DistanceUnit"
+        },
+        "RangeType": {
+            "type": "string",
+            "enum": [
+                "point",
+                "line",
+                "cone",
+                "radius",
+                "sphere",
+                "special",
+                "hemisphere",
+                "cube"
+            ],
+            "title": "RangeType"
+        },
+        "School": {
+            "type": "string",
+            "enum": [
+                "Transmutation",
+                "Abjuration",
+                "V",
+                "Conjuration",
+                "T",
+                "Enchantment",
+                "N"
+            ],
+            "title": "School"
+        }
+    }
+}

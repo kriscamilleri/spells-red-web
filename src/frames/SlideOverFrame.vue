@@ -159,7 +159,6 @@
                 </div>
             </div>
         </transition>
-
         <slot></slot>
     </div>
 </template>
