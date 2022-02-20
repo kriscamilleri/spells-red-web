@@ -9,7 +9,8 @@ import { $vfm, VueFinalModal, ModalsContainer } from 'vue-final-modal'
 
 
 import {
-
+  uniAngleDown,
+  uniAngleUp,
   uniCheck,
   uniArrowUp,
   uniArrowUpLeft,
@@ -65,6 +66,8 @@ import {
 } from "vue-unicons/dist/icons";
 
 Unicon.add([
+  uniAngleDown,
+  uniAngleUp,
   uniCheck,
   uniArrowUp,
   uniArrowUpLeft,

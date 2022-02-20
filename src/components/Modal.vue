@@ -3,8 +3,8 @@
         v-slot="{ params, close }"
         v-bind="$attrs"
         class="flex"
-        classes="flex items-start mt-8 "
-        content-class="w-full relative flex flex-col max-h-full mx-8 p-4  border dark:border-gray-800 rounded bg-white dark:bg-gray-900"
+        classes="flex justify-center items-start mt-8 "
+        :content-class="contentClass + ' relative flex flex-col content-start max-h-full mx-8 p-4 rounded bg-white'"
     >
         <span class="mr-8 text-2xl font-bold">
             <slot name="title"></slot>
@@ -23,25 +23,35 @@
             >
                 <span class="inline-block">
                     <span class="font-medium">Apply</span>
-                    <span class="align-middle ml-0.5">
+                    <span class="align-middle ml-0.5 cursor-pointer">
                         <unicon fill name="check-circle" height="1rem" />
                     </span>
                 </span>
             </a>
         </div>
-        <button class="absolute top-0 right-0 mt-5 mr-4" @click="close">
+        <button class="absolute top-0 right-0 mt-5 mr-4" @click="closeDialog(close)">
             <unicon class="w-5 h-5" name="times-circle" fill />
         </button>
     </vue-final-modal>
 </template>
 <script>
 export default {
-    name: 'VTailwindModal',
+    name: 'Modal',
     inheritAttrs: false,
     props: {
         showConfirm: {
-            default: true,
-            type: Boolean
+            type: Boolean,
+            default: true
+        },
+        contentClass: {
+            type: String,
+            default: 'w-full'
+        }
+    },
+    methods: {
+        closeDialog(close) {
+            console.log(close)
+            close();
         }
     }
 }

@@ -14,7 +14,7 @@
     </div>
     <div id="modals">
       <div>
-        <v-tailwind-modal v-model="showSpellModal" class="mx-auto justify-center">
+        <modal v-model="showSpellModal" class="mx-auto justify-center">
           <template v-slot:title>{{ selectedSpell.name }}</template>
           <div class="grid grid-cols-4 md:grid-cols-6">
             <div>
@@ -46,14 +46,9 @@
             <p>{{ selectedSpell.description }}</p>
             <!-- ... -->
           </div>
-        </v-tailwind-modal>
+        </modal>
       </div>
-
-      <div>
-        <v-tailwind-modal v-model="showFilterModal" class="mx-auto justify-center">
-          <template v-slot:title>Filter & Sort</template>
-        </v-tailwind-modal>
-      </div>
+      <FiltersModal :spells="spells" v-model="showFilterModal"></FiltersModal>
     </div>
     <template v-slot:nav>
       <div class="inline-block">
@@ -67,10 +62,11 @@
         </div>
 
         <a
+          @click="displayFilterModal()"
           href="#"
           class="inline border hover:bg-gray-50 focus:bg-gray-50 focus:shadow-sm bg-white p-3 bg-gray-50 hover:shadow transition-all text-center border-gray-300 focus:ring-gray-300 focus:ring-2 px-3 mx-1"
         >
-          <span class="inline-block" @click="displayFilterModal()">
+          <span class="inline-block">
             <span class="font-medium">Filter</span>
             <span class="align-middle ml-0.5">
               <unicon fill name="filter" height="1rem" />
@@ -93,8 +89,9 @@
 import { VueEternalLoading } from '@ts-pro/vue-eternal-loading';
 import SlideOverFrame from '@/frames/SlideOverFrame.vue';
 import SpellCard from '@/components/SpellCard.vue';
-import VTailwindModal from '@/components/VTailwindModal.vue';
+import Modal from '@/components/Modal.vue';
 import SpellSortFilterMixin from '@/mixins/spellSortFilterMixin.js';
+import FiltersModal from '@/components/FiltersModal.vue';
 
 export default {
   data() {
@@ -166,6 +163,9 @@ export default {
     },
   },
   computed: {
+    classList() {
+      return this.$store.getters.getClasses
+    },
     spells() {
       return this.$store.getters.getSpells
     },
@@ -208,8 +208,9 @@ export default {
   components: {
     SlideOverFrame,
     SpellCard,
-    VTailwindModal,
+    Modal,
     VueEternalLoading,
+    FiltersModal
   },
   mixins: [SpellSortFilterMixin]
 }

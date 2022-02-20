@@ -25,6 +25,7 @@ export const spellStore = {
                     console.log(data)
                     const spells = data;
                     commit('setSpells', spells);
+                    commit('setClassMeta', spells);
                     commit('setDataLoading', false);
                 });
         }
@@ -40,6 +41,20 @@ export const spellStore = {
             state.spells = spells;
         },
         setClassMeta(state, spells) {
+            state.spellMeta.classes = [...new Set(spells.flatMap(c => c.classes.map(d => d.baseClass)))];
+
+            const subClassesNotDistinct = [...new Set(spells.flatMap(c => c.classes.map(d => d))
+                .filter(c => c.classType === 'Sub')
+                .map(c => { return { baseClass: c.baseClass, subClass: c.subClass } }))]
+            const distinctSubClasses = Array.from(new Set(subClassesNotDistinct.map(c => JSON.stringify(c)))).map(JSON.parse);
+            state.spellMeta.subClasses = distinctSubClasses;
+
+            const variantNotDistinct = [...new Set(spells.flatMap(c => c.classes.map(d => d))
+                .filter(c => c.classType === 'Variant')
+                .map(c => { return { baseClass: c.baseClass, subClass: c.subClass } }))]
+            const distinctVariants = Array.from(new Set(variantNotDistinct.map(c => JSON.stringify(c)))).map(JSON.parse);
+            state.spellMeta.variantClasses = distinctVariants;
+
         }
     },
     getters: {
@@ -50,7 +65,13 @@ export const spellStore = {
             return state.selectedSpell;
         },
         getClasses(state) {
-            // return state.spells.map(c => c.)
+            return state.spellMeta.classes;
+        },
+        getSubClasses(state) {
+            return state.spellMeta.subClasses;
+        },
+        getVariantClasses(state) {
+            return state.spellMeta.variantClasses;
         }
     }
 }
