@@ -77,7 +77,7 @@
                     <div class="flex flex-row justify-between tweak-width max-w-[80%]">
                         <span>
                             <input
-                                id="subClassSelectAll"
+                                :id="`subClassSelectAll_${h}`"
                                 name="subClassCheckbox"
                                 type="checkbox"
                                 class="mr-1 p-1"
@@ -85,16 +85,16 @@
                                 @click="selectSubClassOfBaseClass(h)"
                             />
                             <!-- v-model="allSubClassesSelected" -->
-                            <label for="subClassSelectAll" class="p-1">{{ h }}</label>
+                            <label :for="`subClassSelectAll_${h}`" class="p-1">{{ h }}</label>
                         </span>
-                        <span @click="toggleSubClassesSection" class="cursor-pointer">
+                        <!-- <span @click="toggleSubClassesSection" class="cursor-pointer">
                             <unicon
                                 fill
                                 :name="showSubClassSection ? 'angle-up' : 'angle-down'"
                                 class="mt-1"
                                 height="1.5rem"
                             />
-                        </span>
+                        </span>-->
                     </div>
                     <hr class="max-w-[80%] mb-2" />
                 </h3>
@@ -117,7 +117,75 @@
         </div>
         <br />
         <!-- VARIANT CLASS FILTERS -->
-        <div>{{ variantClasses }}</div>
+
+        <h3 class="text-xl line-behind flex flex-col">
+            <div class="flex flex-row justify-between tweak-width">
+                <span>
+                    <input
+                        id="variantClassSelectAll"
+                        name="variantClassCheckbox"
+                        type="checkbox"
+                        class="mr-1 p-1"
+                        v-model="allVariantClassesSelected"
+                    />
+                    <label for="variantClassSelectAll" class="p-1">Variant</label>
+                </span>
+                <span @click="toggleVariantClassesSection" class="cursor-pointer">
+                    <unicon
+                        fill
+                        :name="showVariantClassSection ? 'angle-up' : 'angle-down'"
+                        class="mt-1"
+                        height="1.5rem"
+                    />
+                </span>
+            </div>
+            <hr class="tweak-width mb-4" />
+        </h3>
+        <div class="flex flex-row flex-wrap" v-show="showVariantClassSection">
+            <div class="header mb-6" v-for="(h, i) in variantClassHeaders" :key="i">
+                <h3 class="text-lg line-behind flex flex-col">
+                    <div class="flex flex-row justify-between tweak-width max-w-[80%]">
+                        <span>
+                            <input
+                                :id="`variantClassSelectAll_${h}`"
+                                name="variantClassCheckbox"
+                                type="checkbox"
+                                class="mr-1 p-1"
+                                v-model="selectedVariantClassHeaderState[h]"
+                                @click="selectVariantClassOfBaseClass(h)"
+                            />
+                            <!-- v-model="allSubClassesSelected" -->
+                            <label :for="`variantClassSelectAll_${h}`" class="p-1">{{ h }}</label>
+                        </span>
+                        <!-- <span @click="toggleVariantClassesSection" class="cursor-pointer">
+                            <unicon
+                                fill
+                                :name="showVariantClassSection ? 'angle-up' : 'angle-down'"
+                                class="mt-1"
+                                height="1.5rem"
+                            />
+                        </span>-->
+                    </div>
+                    <hr class="max-w-[80%] mb-2" />
+                </h3>
+                <div
+                    v-for="(c, i) in variantClasses.filter(c => c.baseClass == h)"
+                    :key="i"
+                    class="min-w-[14rem] lg:min-w-[14rem] lg:min-w-[18rem] xl:min-w-[18rem] my-1"
+                >
+                    <input
+                        v-model="selectedVariantClasses"
+                        :id="`variantClassCheckbox_${h}_${i}`"
+                        name="variantClassCheckbox"
+                        type="checkbox"
+                        :value="{ baseClass: c.baseClass, variantSource: c.variantSource }"
+                        class="mr-1 p-1"
+                    />
+                    <label :for="`variantClassCheckbox_${h}_${i}`" class="p-1">{{ c.variantSource }}</label>
+                </div>
+            </div>
+        </div>
+        <br />
     </modal>
 </template>
 <script>
@@ -140,11 +208,13 @@ export default {
         return {
             showClassSection: true,
             selectedClasses: [],
-            showSubClassSection: true,
+            showSubClassSection: false,
             selectedSubClasses: [],
             selectedSubClassHeaderState: {},
-            showVariantSection: true,
-            selectedVariantClasses: []
+            showVariantClassSection: false,
+            selectedVariantClasses: [],
+            selectedVariantClassHeaderState: {},
+
         }
     },
     computed: {
@@ -175,11 +245,23 @@ export default {
         variantClasses() {
             return this.$store.getters.getVariantClasses.sort()
         },
-        filteredSpellIds() {
-            return this.spells;
-            let spells = this.spells
-            spells = this.filterByClass(spells)
-            //TODO CONTINUE HERE
+        variantClassHeaders() {
+            //Sort spells by number of subclasses in descending order for better UI Layout
+            const allHeaders = this.variantClasses.flatMap(c => c.baseClass)
+            const distinctHeaders = [...new Set(allHeaders)]
+            let classHeadersWithCount = new Array()
+            for (let i = 0; i < distinctHeaders.length; i++) {
+                const header = distinctHeaders[i]
+                const variantClasses = this.variantClasses.filter(c => c.baseClass === header).sort()
+                const variantClassCount = variantClasses.length
+                classHeadersWithCount.push({
+                    baseClass: header,
+                    variantClasses: variantClasses.map(c => c.variantSource),
+                    count: variantClassCount,
+                })
+            }
+            const sortedHeaders = classHeadersWithCount.sort((a, b) => b.count - a.count).map(c => c.baseClass)
+            return sortedHeaders
         },
         allClassesSelected: {
             get() {
@@ -191,7 +273,6 @@ export default {
                 } else {
                     this.selectedClasses = [];
                     this.selectedClasses = this.classes;
-
                 }
             }
         },
@@ -207,7 +288,27 @@ export default {
                     this.resetSubClassHeaderState()
                 }
             }
-        }
+        },
+        allVariantClassesSelected: {
+            get() {
+                return this.selectedVariantClasses.length == this.variantClasses.length
+            },
+            set() {
+                if (this.selectedVariantClasses.length != this.variantClasses.length) {
+                    this.selectedVariantClasses = this.variantClasses;
+                } else {
+                    this.selectedVariantClasses = [];
+                    this.resetVariantClassHeaderState()
+                }
+            }
+        },
+        filteredSpellIds() {
+            return this.spells;
+            let spells = this.spells
+            spells = this.filterByClass(spells)
+            //TODO CONTINUE HERE
+        },
+
     },
     methods: {
         filterByClass(spells) {
@@ -222,14 +323,15 @@ export default {
         toggleSubClassesSection() {
             this.showSubClassSection = !this.showSubClassSection
         },
+
+        toggleVariantClassesSection() {
+            this.showVariantClassSection = !this.showVariantClassSection
+        },
         selectSubClassOfBaseClass(baseClass) {
             let allRelatedSubclasses = this.subClasses.filter(c => c.baseClass === baseClass)
             let allChosenRelatedSubClasses = this.selectedSubClasses.filter(c => c.baseClass === baseClass)
             const areAllSelected = allRelatedSubclasses.length === allChosenRelatedSubClasses.length;
             const areNoneSelected = allChosenRelatedSubClasses.length === 0;
-            const areSomeSelected = allChosenRelatedSubClasses.length > 0 && allChosenRelatedSubClasses.length < allRelatedSubclasses.length;
-            console.log('areAllSelected', 'areNoneSelected', 'areSomeSelected')
-            console.log(areAllSelected, areNoneSelected, areSomeSelected, baseClass)
             if (areAllSelected) {
                 //if yes, remove all with matching base class from selected list
                 this.selectedSubClasses = this.selectedSubClasses.filter(c => c.baseClass !== baseClass)
@@ -241,15 +343,38 @@ export default {
                 this.selectedSubClassHeaderState[baseClass] = true;
 
             } else {
-                console.log(this.selectedSubClassHeaderState[baseClass])
                 if (this.selectedSubClassHeaderState[baseClass]) {
                     this.selectedSubClasses = this.selectedSubClasses.filter(c => c.baseClass !== baseClass)
                     this.selectedSubClassHeaderState[baseClass] = false
                 } else {
                     this.selectedSubClasses = allRelatedSubclasses;
                     this.selectedSubClassHeaderState[baseClass] = true
+                }
+                //if no, add all with matching base class to selected list
+            }
+        },
+        selectVariantClassOfBaseClass(baseClass) {
+            let allRelatedVariantClasses = this.variantClasses.filter(c => c.baseClass === baseClass)
+            let allChosenVariantSubClasses = this.selectedVariantClasses.filter(c => c.baseClass === baseClass)
+            const areAllSelected = allRelatedVariantClasses.length === allChosenVariantSubClasses.length;
+            const areNoneSelected = allChosenVariantSubClasses.length === 0;
+            if (areAllSelected) {
+                //if yes, remove all with matching base class from selected list
+                this.selectedVariantClasses = this.selectedVariantClasses.filter(c => c.baseClass !== baseClass)
+                this.selectedVariantClassHeaderState[baseClass] = false;
+            }
+            else if (areNoneSelected) {
+                //if no, add all with matching base class to selected list
+                allRelatedVariantClasses.forEach(c => { this.selectedVariantClasses.push(c) });
+                this.selectedVariantClassHeaderState[baseClass] = true;
 
-
+            } else {
+                if (this.selectedVariantClassHeaderState[baseClass]) {
+                    this.selectedVariantClasses = this.selectedVariantClasses.filter(c => c.baseClass !== baseClass)
+                    this.selectedVariantClassHeaderState[baseClass] = false
+                } else {
+                    this.selectedVariantClasses = allRelatedVariantClasses;
+                    this.selectedVariantClassHeaderState[baseClass] = true
                 }
                 //if no, add all with matching base class to selected list
             }
@@ -260,7 +385,13 @@ export default {
                 obj[c] = false
             })
             return this.selectedSubClassHeaderState = obj
-
+        },
+        resetVariantClassHeaderState() {
+            let obj = {}
+            this.variantClassHeaders.forEach(c => {
+                obj[c] = false
+            })
+            return this.selectedVariantClassHeaderState = obj
         }
     },
     watch: {
@@ -269,12 +400,23 @@ export default {
             for (let i = 0; i < baseClasses.length; i++) {
                 let selectedCount = selectedSubClasses.filter(c => c.baseClass === baseClasses[i]).length
                 let totalCount = this.subClasses.filter(c => c.baseClass === baseClasses[i]).length
-                console.log(selectedCount, totalCount)
                 this.selectedSubClassHeaderState[baseClasses[i]] = selectedCount === totalCount
             }
         },
         subClassHeaders() {
             this.resetSubClassHeaderState()
+        },
+
+        selectedVariantClasses(selectedVariantClasses) {
+            const baseClasses = [...new Set(selectedVariantClasses.map(c => c.baseClass))]
+            for (let i = 0; i < baseClasses.length; i++) {
+                let selectedCount = selectedVariantClasses.filter(c => c.baseClass === baseClasses[i]).length
+                let totalCount = this.variantClasses.filter(c => c.baseClass === baseClasses[i]).length
+                this.selectedVariantClassHeaderState[baseClasses[i]] = selectedCount === totalCount
+            }
+        },
+        subClassHeaders() {
+            this.resetVariantClassHeaderState()
         }
     },
 }

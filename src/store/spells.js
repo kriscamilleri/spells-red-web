@@ -51,7 +51,7 @@ export const spellStore = {
 
             const variantNotDistinct = [...new Set(spells.flatMap(c => c.classes.map(d => d))
                 .filter(c => c.classType === 'Variant')
-                .map(c => { return { baseClass: c.baseClass, subClass: c.subClass } }))]
+                .map(c => { return { baseClass: c.baseClass, variantSource: c.variantSource } }))]
             const distinctVariants = Array.from(new Set(variantNotDistinct.map(c => JSON.stringify(c)))).map(JSON.parse);
             state.spellMeta.variantClasses = distinctVariants;
 
