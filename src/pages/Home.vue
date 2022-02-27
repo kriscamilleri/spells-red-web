@@ -56,7 +56,7 @@
           <label for="#search" class="my-2.5 px-3 py-8 inline font-medium">Search</label>
           <input
             id="search"
-            class="bg-white leading-loose m-0 pl-3 px-2 py-1 min-w-[18rem] focus:ring-2 focus:ring-gray-300 focus:outline-0"
+            class="bg-white leading-loose m-0 pl-3 px-2 py-1 min-w-[14rem] lg:min-w-[14rem] lg:min-w-[18rem] xl:min-w-[18rem] focus:ring-2 focus:ring-gray-300 focus:outline-0"
             v-model="searchText"
           />
         </div>
