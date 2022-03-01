@@ -4,49 +4,10 @@
         :contentClass="'min-w-[2rem] w-1/2 mx-auto max-w-[40rem]'"
     >
         <template v-slot:title>Filter & Sort</template>
-        <!-- CLASS FILTERS -->
-        <h2 class="text-2xl mb-4">Filters</h2>
-        <h3 class="text-xl line-behind flex flex-col">
-            <div class="flex flex-row justify-between tweak-width">
-                <span>
-                    <input
-                        id="classSelectAll"
-                        name="classCheckbox"
-                        type="checkbox"
-                        class="mr-1 p-1"
-                        v-model="allClassesSelected"
-                    />
-                    <label for="classSelectAll" class="p-1">Class</label>
-                </span>
-                <span @click="toggleClassesSection" class="cursor-pointer">
-                    <unicon
-                        fill
-                        :name="showClassSection ? 'angle-up' : 'angle-down'"
-                        class="mt-1"
-                        height="1.5rem"
-                    />
-                </span>
-            </div>
-            <hr class="tweak-width mb-4" />
-        </h3>
-        <div class="flex flex-row flex-wrap" v-show="showClassSection">
-            <div
-                v-for="(c, i) in classes"
-                :key="i"
-                class="min-w-[14rem] lg:min-w-[14rem] lg:min-w-[18rem] xl:min-w-[18rem] my-1"
-            >
-                <input
-                    v-model="selectedClasses"
-                    :id="`classCheckbox${i}`"
-                    name="classCheckbox"
-                    type="checkbox"
-                    :value="c"
-                    class="mr-1 p-1"
-                />
-                <label :for="`classCheckbox${i}`" class="p-1">{{ c }}</label>
-            </div>
-        </div>
-        <br />
+        <h2 class="text-xl mb-6 font-bold">Filters</h2>
+        <FilterSection :items="sources" name="Source"></FilterSection>
+        <FilterSection :items="schools" name="School"></FilterSection>
+        <FilterSection :items="classes" name="Class"></FilterSection>
         <!-- SUBCLASS FILTERS -->
         <h3 class="text-xl line-behind flex flex-col">
             <div class="flex flex-row justify-between tweak-width">
@@ -60,7 +21,7 @@
                     />
                     <label for="subClassSelectAll" class="p-1">Subclass</label>
                 </span>
-                <span @click="toggleSubClassesSection" class="cursor-pointer">
+                <span @click="toggleSubClassesSection" class="cursor-pointer px-4">
                     <unicon
                         fill
                         :name="showSubClassSection ? 'angle-up' : 'angle-down'"
@@ -84,17 +45,8 @@
                                 v-model="selectedSubClassHeaderState[h]"
                                 @click="selectSubClassOfBaseClass(h)"
                             />
-                            <!-- v-model="allSubClassesSelected" -->
                             <label :for="`subClassSelectAll_${h}`" class="p-1">{{ h }}</label>
                         </span>
-                        <!-- <span @click="toggleSubClassesSection" class="cursor-pointer">
-                            <unicon
-                                fill
-                                :name="showSubClassSection ? 'angle-up' : 'angle-down'"
-                                class="mt-1"
-                                height="1.5rem"
-                            />
-                        </span>-->
                     </div>
                     <hr class="max-w-[80%] mb-2" />
                 </h3>
@@ -117,7 +69,6 @@
         </div>
         <br />
         <!-- VARIANT CLASS FILTERS -->
-
         <h3 class="text-xl line-behind flex flex-col">
             <div class="flex flex-row justify-between tweak-width">
                 <span>
@@ -130,7 +81,7 @@
                     />
                     <label for="variantClassSelectAll" class="p-1">Variant</label>
                 </span>
-                <span @click="toggleVariantClassesSection" class="cursor-pointer">
+                <span @click="toggleVariantClassesSection" class="cursor-pointer px-4">
                     <unicon
                         fill
                         :name="showVariantClassSection ? 'angle-up' : 'angle-down'"
@@ -154,17 +105,8 @@
                                 v-model="selectedVariantClassHeaderState[h]"
                                 @click="selectVariantClassOfBaseClass(h)"
                             />
-                            <!-- v-model="allSubClassesSelected" -->
                             <label :for="`variantClassSelectAll_${h}`" class="p-1">{{ h }}</label>
                         </span>
-                        <!-- <span @click="toggleVariantClassesSection" class="cursor-pointer">
-                            <unicon
-                                fill
-                                :name="showVariantClassSection ? 'angle-up' : 'angle-down'"
-                                class="mt-1"
-                                height="1.5rem"
-                            />
-                        </span>-->
                     </div>
                     <hr class="max-w-[80%] mb-2" />
                 </h3>
@@ -190,9 +132,10 @@
 </template>
 <script>
 import Modal from '@/components/Modal.vue'
+import FilterSection from '@/components/FilterSection.vue'
 export default {
     components: {
-        Modal
+        Modal, FilterSection
     },
     props: {
         show: {
@@ -206,8 +149,6 @@ export default {
     },
     data() {
         return {
-            showClassSection: true,
-            selectedClasses: [],
             showSubClassSection: false,
             selectedSubClasses: [],
             selectedSubClassHeaderState: {},
@@ -218,6 +159,12 @@ export default {
         }
     },
     computed: {
+        schools() {
+            return this.$store.getters.getSchools.sort()
+        },
+        sources() {
+            return this.$store.getters.getSources.sort()
+        },
         classes() {
             return this.$store.getters.getClasses.sort()
         },
@@ -314,16 +261,12 @@ export default {
         filterByClass(spells) {
             return spells.flatMap()
         },
-        toggleClassesSection() {
-            this.showClassSection = !this.showClassSection
-        },
         filterBySubClass(spells) {
             return spells.flatMap()
         },
         toggleSubClassesSection() {
             this.showSubClassSection = !this.showSubClassSection
         },
-
         toggleVariantClassesSection() {
             this.showVariantClassSection = !this.showVariantClassSection
         },
@@ -406,7 +349,6 @@ export default {
         subClassHeaders() {
             this.resetSubClassHeaderState()
         },
-
         selectedVariantClasses(selectedVariantClasses) {
             const baseClasses = [...new Set(selectedVariantClasses.map(c => c.baseClass))]
             for (let i = 0; i < baseClasses.length; i++) {

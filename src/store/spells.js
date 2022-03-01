@@ -6,6 +6,8 @@ export const spellStore = {
             classes: [],
             subClasses: [],
             variantClasses: [],
+            schools: [],
+            sources: [],
         },
         spellBookSpells: [],
         selectedSpell: {},
@@ -55,7 +57,10 @@ export const spellStore = {
             const distinctVariants = Array.from(new Set(variantNotDistinct.map(c => JSON.stringify(c)))).map(JSON.parse);
             state.spellMeta.variantClasses = distinctVariants;
 
-        }
+            state.spellMeta.schools = [...new Set(spells.map(c => c.school))];
+            state.spellMeta.sources = [...new Set(spells.map(c => c.source))];
+
+        },
     },
     getters: {
         getSpells(state) {
@@ -72,6 +77,12 @@ export const spellStore = {
         },
         getVariantClasses(state) {
             return state.spellMeta.variantClasses;
+        },
+        getSchools(state) {
+            return state.spellMeta.schools;
+        },
+        getSources(state) {
+            return state.spellMeta.sources;
         }
     }
 }
