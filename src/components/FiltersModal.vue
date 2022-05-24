@@ -4,10 +4,14 @@
         :contentClass="'min-w-[2rem] w-1/2 mx-auto max-w-[40rem]'"
     >
         <template v-slot:title>Filter & Sort</template>
+        <h2 class="text-xl mb-6 font-bold">Sort</h2>
+        <FilterRadioSection :items="sortList" name="Sort"></FilterRadioSection>
         <h2 class="text-xl mb-6 font-bold">Filters</h2>
-        <FilterSection :items="sources" name="Source"></FilterSection>
-        <FilterSection :items="schools" name="School"></FilterSection>
-        <FilterSection :items="classes" name="Class"></FilterSection>
+        <FilterBooleanSection :item="'ritual'" name="Ritual" icon="jackhammer"></FilterBooleanSection>
+        <FilterBooleanSection :item="'concentration'" name="Concentration" icon="squint"></FilterBooleanSection>
+        <FilterCheckboxSection :items="sources" name="Source"></FilterCheckboxSection>
+        <FilterCheckboxSection :items="schools" name="School"></FilterCheckboxSection>
+        <FilterCheckboxSection :items="classes" name="Class"></FilterCheckboxSection>
         <!-- SUBCLASS FILTERS -->
         <h3 class="text-xl line-behind flex flex-col">
             <div class="flex flex-row justify-between tweak-width">
@@ -65,9 +69,9 @@
                     />
                     <label :for="`subClassCheckbox_${h}_${i}`" class="p-1">{{ c.subClass }}</label>
                 </div>
+                <br />
             </div>
         </div>
-        <br />
         <!-- VARIANT CLASS FILTERS -->
         <h3 class="text-xl line-behind flex flex-col">
             <div class="flex flex-row justify-between tweak-width">
@@ -125,17 +129,22 @@
                     />
                     <label :for="`variantClassCheckbox_${h}_${i}`" class="p-1">{{ c.variantSource }}</label>
                 </div>
+                <br />
             </div>
         </div>
-        <br />
     </modal>
 </template>
 <script>
 import Modal from '@/components/Modal.vue'
-import FilterSection from '@/components/FilterSection.vue'
+import FilterCheckboxSection from '@/components/FilterCheckboxSection.vue'
+import FilterRadioSection from '@/components/FilterRadioSection.vue'
+import FilterBooleanSection from './FilterBooleanSection.vue'
 export default {
     components: {
-        Modal, FilterSection
+        Modal,
+        FilterCheckboxSection,
+        FilterBooleanSection,
+        FilterRadioSection
     },
     props: {
         show: {
@@ -155,6 +164,7 @@ export default {
             showVariantClassSection: false,
             selectedVariantClasses: [],
             selectedVariantClassHeaderState: {},
+            sortList: ['Name', 'Level']
 
         }
     },

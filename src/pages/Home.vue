@@ -1,87 +1,77 @@
 <template>
-  <SlideOverFrame>
-    <div class="flex flex-wrap justify-center">
-      <SpellCard
-        v-for="spell in renderedSpells"
-        :fields="generateFieldsForCard(spell)"
-        :title="spell.name"
-        :key="spell.id"
-        @click="displaySpellModal(spell.id)"
-        class="max-w-[22rem] w-[22rem] min-w-[22rem]"
-      >
-        <!-- <router-link to="/Spell/1234" class="underline">Read me!</router-link> -->
-      </SpellCard>
-    </div>
-    <div id="modals">
-      <div>
-        <modal v-model="showSpellModal" class="mx-auto justify-center">
-          <template v-slot:title>{{ selectedSpell.name }}</template>
-          <div class="grid grid-cols-4 md:grid-cols-6">
-            <div>
-              <label class="font-bold">Level</label>
-              <p>{{ selectedSpell.level }}</p>
-            </div>
-            <div>
-              <label class="font-bold">Class</label>
-              <p>{{ selectedSpell.classes }}</p>
-            </div>
-            <div>
-              <label class="font-bold">Range</label>
-              <p>{{ selectedSpell.range }}</p>
-            </div>
-            <div>
-              <label class="font-bold">Duration</label>
-              <p>{{ selectedSpell.duration }}</p>
-            </div>
-            <div>
-              <label class="font-bold">Casting</label>
-              <p>{{ selectedSpell.casting }}</p>
-            </div>
-            <div>
-              <label class="font-bold">School</label>
-              <p>{{ selectedSpell.school }}</p>
-            </div>
-          </div>
-          <div class="columns-1 sm:columns-3">
-            <p>{{ selectedSpell.description }}</p>
-            <!-- ... -->
-          </div>
-        </modal>
+  <div>
+    <SlideOverFrame>
+      <div class="flex flex-wrap justify-center">
+        <SpellCard v-for="spell in renderedSpells" :fields="generateFieldsForCard(spell)" :title="spell.name"
+          :key="spell.id" @click="displaySpellModal(spell.id)" class="max-w-[22rem] w-[22rem] min-w-[22rem]">
+          <!-- <router-link to="/Spell/1234" class="underline">Read me!</router-link> -->
+        </SpellCard>
       </div>
-      <FiltersModal :spells="spells" v-model="showFilterModal"></FiltersModal>
-    </div>
-    <template v-slot:nav>
-      <div class="inline-block">
-        <div class="border border-gray-300 bg-gray-50 inline py-3">
-          <label for="#search" class="my-2.5 px-3 py-8 inline font-medium">Search</label>
-          <input
-            id="search"
-            class="bg-white leading-loose m-0 pl-3 px-2 py-1 min-w-[14rem] lg:min-w-[14rem] lg:min-w-[18rem] xl:min-w-[18rem] focus:ring-2 focus:ring-gray-300 focus:outline-0"
-            v-model="searchText"
-          />
+      <div id="modals">
+        <div>
+          <modal v-model="showSpellModal" class="mx-auto justify-center">
+            <template v-slot:title>
+              <a href="#" @click="onCloseModal(selectedSpell.id)">{{
+                  selectedSpell.name
+              }}</a>
+            </template>
+            <div class="grid grid-cols-4 md:grid-cols-6">
+              <div>
+                <label class="font-bold">Level</label>
+                <p>{{ selectedSpell.level }}</p>
+              </div>
+              <div>
+                <label class="font-bold">Class</label>
+                <p>{{ selectedSpell.classes }}</p>
+              </div>
+              <div>
+                <label class="font-bold">Range</label>
+                <p>{{ selectedSpell.range }}</p>
+              </div>
+              <div>
+                <label class="font-bold">Duration</label>
+                <p>{{ selectedSpell.duration }}</p>
+              </div>
+              <div>
+                <label class="font-bold">Casting</label>
+                <p>{{ selectedSpell.casting }}</p>
+              </div>
+              <div>
+                <label class="font-bold">School</label>
+                <p>{{ selectedSpell.school }}</p>
+              </div>
+            </div>
+            <div class="columns-1 sm:columns-3 min-h-[40rem]">
+              <p>{{ selectedSpell.description }}</p>
+              <!-- ... -->
+            </div>
+          </modal>
         </div>
-
-        <a
-          @click="displayFilterModal()"
-          href="#"
-          class="inline border hover:bg-gray-50 focus:bg-gray-50 focus:shadow-sm bg-white p-3 bg-gray-50 hover:shadow transition-all text-center border-gray-300 focus:ring-gray-300 focus:ring-2 px-3 mx-1"
-        >
-          <span class="inline-block">
-            <span class="font-medium">Filter</span>
-            <span class="align-middle ml-0.5">
-              <unicon fill name="filter" height="1rem" />
-            </span>
-          </span>
-        </a>
+        <FiltersModal :spells="spells" v-model="showFilterModal"></FiltersModal>
       </div>
-    </template>
-    <VueEternalLoading
-      v-if="spells.length > 0"
-      :load="load"
-      v-model:is-initial="loaderIsInitial"
-      class="text-center"
-    ></VueEternalLoading>
-  </SlideOverFrame>
+      <template v-slot:nav>
+        <div class="inline-block">
+          <div class="border border-gray-300 bg-gray-50 inline py-3">
+            <label for="#search" class="my-2.5 px-3 py-8 inline font-medium">Search</label>
+            <input id="search"
+              class="bg-white leading-loose m-0 pl-3 px-2 py-1 min-w-[14rem] lg:min-w-[14rem] lg:min-w-[18rem] xl:min-w-[18rem] focus:ring-2 focus:ring-gray-300 focus:outline-0"
+              v-model="searchText" />
+          </div>
+          <a @click="displayFilterModal()" href="#"
+            class="inline border hover:bg-gray-50 focus:bg-gray-50 focus:shadow-sm bg-white p-3 bg-gray-50 hover:shadow transition-all text-center border-gray-300 focus:ring-gray-300 focus:ring-2 px-3 mx-1">
+            <span class="inline-block">
+              <span class="font-medium">Filter</span>
+              <span class="align-middle ml-0.5">
+                <unicon fill name="filter" height="1rem" />
+              </span>
+            </span>
+          </a>
+        </div>
+      </template>
+      <VueEternalLoading v-if="spells.length > 0" :load="load" v-model:is-initial="loaderIsInitial" class="text-center">
+      </VueEternalLoading>
+    </SlideOverFrame>
+  </div>
 </template>
 <style>
 </style>
@@ -107,6 +97,10 @@ export default {
     }
   },
   methods: {
+    onCloseModal(spellId) {
+      this.$router.push('/Spell/' + spellId)
+      console.log(this.$router)
+    },
     displaySpellModal(spellId) {
       this.showSpellModal = !this.showSpellModal;
       return this.$store.commit('setSelectedSpell', spellId)
