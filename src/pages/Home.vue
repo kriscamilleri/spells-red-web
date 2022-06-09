@@ -98,8 +98,11 @@ export default {
   },
   methods: {
     onCloseModal(spellId) {
-      this.$router.push('/Spell/' + spellId)
-      console.log(this.$router)
+      this.showSpellModal = false
+      let self = this;
+      setTimeout(function () {
+        self.$router.push('/Spell/' + spellId)
+      }, 200);
     },
     displaySpellModal(spellId) {
       this.showSpellModal = !this.showSpellModal;

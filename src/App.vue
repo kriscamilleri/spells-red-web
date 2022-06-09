@@ -15,7 +15,7 @@
 .scale-slide-enter-active,
 .scale-slide-leave-active {
   position: absolute;
-  transition: all 1.85s ease;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   width: 100%;
   height: 100%;
 }

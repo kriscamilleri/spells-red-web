@@ -122,7 +122,6 @@
             <slot></slot>
         </div>
     </div>
-
 </template>
 <style scoped>
 #frame {
@@ -131,6 +130,7 @@
     width: 100%;
 }
 
+/* 
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.1s ease-in-out;
@@ -139,7 +139,7 @@
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
-}
+} */
 </style>
 <script>
 export default {
