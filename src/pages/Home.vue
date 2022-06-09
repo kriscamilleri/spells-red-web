@@ -9,43 +9,9 @@
       </div>
       <div id="modals">
         <div>
-          <modal v-model="showSpellModal" class="mx-auto justify-center">
-            <template v-slot:title>
-              <a href="#" @click="onCloseModal(selectedSpell.id)">{{
-                  selectedSpell.name
-              }}</a>
-            </template>
-            <div class="grid grid-cols-4 md:grid-cols-6">
-              <div>
-                <label class="font-bold">Level</label>
-                <p>{{ selectedSpell.level }}</p>
-              </div>
-              <div>
-                <label class="font-bold">Class</label>
-                <p>{{ selectedSpell.classes }}</p>
-              </div>
-              <div>
-                <label class="font-bold">Range</label>
-                <p>{{ selectedSpell.range }}</p>
-              </div>
-              <div>
-                <label class="font-bold">Duration</label>
-                <p>{{ selectedSpell.duration }}</p>
-              </div>
-              <div>
-                <label class="font-bold">Casting</label>
-                <p>{{ selectedSpell.casting }}</p>
-              </div>
-              <div>
-                <label class="font-bold">School</label>
-                <p>{{ selectedSpell.school }}</p>
-              </div>
-            </div>
-            <div class="columns-1 sm:columns-3 min-h-[40rem]">
-              <p>{{ selectedSpell.description }}</p>
-              <!-- ... -->
-            </div>
-          </modal>
+          <SpellModal v-model="showSpellModal" :spell="selectedSpell" class="mx-auto justify-center">
+
+          </SpellModal>
         </div>
         <FiltersModal :spells="spells" v-model="showFilterModal"></FiltersModal>
       </div>
@@ -82,6 +48,7 @@ import SpellCard from '@/components/SpellCard.vue';
 import Modal from '@/components/Modal.vue';
 import SpellSortFilterMixin from '@/mixins/spellSortFilterMixin.js';
 import FiltersModal from '@/components/FiltersModal.vue';
+import SpellModal from '@/components/SpellModal.vue';
 
 export default {
   data() {
@@ -97,13 +64,7 @@ export default {
     }
   },
   methods: {
-    onCloseModal(spellId) {
-      this.showSpellModal = false
-      let self = this;
-      setTimeout(function () {
-        self.$router.push('/Spell/' + spellId)
-      }, 200);
-    },
+
     displaySpellModal(spellId) {
       this.showSpellModal = !this.showSpellModal;
       return this.$store.commit('setSelectedSpell', spellId)
@@ -197,7 +158,6 @@ export default {
   },
   watch: {
     searchText() {
-      console.log('boop')
       this.page = 1;
       this.loaderIsInitial = true;
     }
@@ -207,7 +167,8 @@ export default {
     SpellCard,
     Modal,
     VueEternalLoading,
-    FiltersModal
+    FiltersModal,
+    SpellModal
   },
   mixins: [SpellSortFilterMixin]
 }
