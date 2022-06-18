@@ -9,9 +9,7 @@
       </div>
       <div id="modals">
         <div>
-          <SpellModal v-model="showSpellModal" :spell="selectedSpell" class="mx-auto justify-center">
-
-          </SpellModal>
+          <SpellModal v-model="showSpellModal" :spell="selectedSpell" class="mx-auto justify-center" />
         </div>
         <FiltersModal :spells="spells" v-model="showFilterModal"></FiltersModal>
       </div>

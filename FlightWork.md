@@ -1,0 +1,2 @@
+# Issues
+- [ ] Spell Entry ordering
