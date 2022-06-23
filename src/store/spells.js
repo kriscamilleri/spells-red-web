@@ -16,7 +16,7 @@ export const spellStore = {
     actions: {
         fetchSpells({ commit, state }) {
             commit('setDataLoading', true);
-            fetch(`https://localhost:7169/redspell/TST`)
+            fetch(`https://localhost:7169/redspell/PHB`)
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error("HTTP error " + response.status);

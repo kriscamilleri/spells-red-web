@@ -75,16 +75,24 @@
                     </div>
                 </div>
             </div>
-            <div class="">
+            <div class="mt-2">
                 <div v-if="spell.description && spell.description.paragraph.length > 0">
                     <label class="font-bold">Description</label>
                     <div v-for="(p, i) in spell.description.paragraph" :key="i" class="mb-1 ">{{ p }}</div>
                     <div v-if="spell.description.list !== undefined">
                         <ol v-for="(p, i) in spell.description.list.rows" :key="i" class="mb-1 ">
-                            <li>- {{ p }}</li>
+                            <li>
+                                <label
+                                    v-if="spell.description.list != null && spell.description.list.headers && spell.description.list.headers[i]"
+                                    class="font-semibold block">
+                                    {{ spell.description.list.headers[i] }}
+                                </label>
+                                <span v-else>- </span>
+                                {{ p }}
+                            </li>
                         </ol>
                     </div>
-                    <table v-if="spell.description.table !== undefined" class="my-4">
+                    <table v-if="spell.description.table !== undefined" class="mt-2">
                         <thead>
                             <tr class="mb-1">
                                 <th v-for="(h, i) in spell.description.table.headers" :key="i"
@@ -103,7 +111,8 @@
                     </table>
 
                 </div>
-                <div v-if="spell.higher && spell.higher.paragraph && spell.higher.paragraph.length > 0">
+                <div v-if="spell.higher != undefined && spell.higher.paragraph != undefined && spell.higher.paragraph.length > 0"
+                    class="mt-2">
                     <label class="font-bold">At Higher Levels</label>
                     <div v-for="(h, j) in spell.higher.paragraph" :key="j" class="mb-1">
                         {{ h.replace("At Higher Levels: ", "") }}
