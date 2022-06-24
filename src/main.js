@@ -173,10 +173,10 @@ app.use(VueKeycloak, {
     // Use 'login-required' to always require authentication
     // If using 'login-required', there is no need for the router guards in router.js
     onLoad: 'check-sso',
-    // silentCheckSsoRedirectUri: window.location.origin + '/hats'
+    // silentCheckSsoRedirectUri: window.location.origin 
   },
   config: {
-    url: 'http://localhost:8080/auth',
+    url: 'http://localhost:8080/',
     clientId: 'spells-red-local',
     realm: 'SpellsRed'
   },
