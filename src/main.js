@@ -53,6 +53,7 @@ import {
   uniTrowel,
   uniSignout,
   uniTimesCircle,
+  uniMultiply,
   uniMinusSquareFull,
   uniBookOpen,
   uniBookAlt,
@@ -65,10 +66,12 @@ import {
   uniFilter,
   uniFilterSlash,
   uniCheckCircle,
-  uniSort
+  uniSort,
+  uniWindowGrid
 } from "vue-unicons/dist/icons";
 
 Unicon.add([
+  uniWindowGrid,
   uniSquint,
   uniJackhammer,
   uniAngleDown,
@@ -113,6 +116,7 @@ Unicon.add([
   uniTrowel,
   uniSignout,
   uniTimesCircle,
+  uniMultiply,
   uniMinusSquareFull,
   uniBookOpen,
   uniBookAlt,
