@@ -5,11 +5,41 @@
     </template>
     <template v-slot:header>
       <button
+        id="menu-button"
+        aria-expanded="true"
+        aria-haspopup="true"
         class="absolute top-0 right-8 mt-5 mr-4 cursor-pointer"
-        @click="toggleLayout(close)"
+        @click="toggleLayoutPopover()"
       >
         <unicon class="w-5 h-5" name="window-grid" fill />
       </button>
+      <div
+        v-show="layoutPopoverOn"
+        class="origin-top-right absolute right-12 mt-8 w-36 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+        role="menu"
+        aria-orientation="vertical"
+        aria-labelledby="menu-button"
+        tabindex="-1"
+      >
+        <div class="py-1" role="none">
+          <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+          <label
+            v-for="(layout, i) in layouts"
+            :key="i"
+            :for="'spellModalLayoutRadio_' + i"
+            class="text-gray-700 block text-sm focus:outline-none hover:bg-gray-50 hover:text-gray-800 border-transparent hover:border-gray-500 cursor-pointer py-2 px-2"
+            tabindex="-1"
+          >
+            <input
+              :id="'spellModalLayoutRadio_' + i"
+              type="radio"
+              :value="layout"
+              v-model="activeLayout"
+              class="inline-block mr-2"
+            />{{ layout }}</label
+          >
+        </div>
+      </div>
     </template>
 
     <div class="flex gap-8">
@@ -192,8 +222,9 @@ export default {
   },
   data() {
     return {
-      activeLayout: "split",
-      layouts: {},
+      activeLayout: "Vertical Split",
+      layouts: ["Vertical Split", "Horizontal Split"],
+      layoutPopoverOn: false,
     };
   },
   computed: {
@@ -350,6 +381,12 @@ export default {
         [...word].splice(0, 1).toString().toUpperCase() +
         [...word].splice(1, word.length - 1).join("")
       );
+    },
+    toggleLayoutPopover() {
+      this.layoutPopoverOn = !this.layoutPopoverOn;
+    },
+    setLayout(layout) {
+      this.activeLayout = layout;
     },
   },
 };

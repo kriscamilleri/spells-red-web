@@ -22,7 +22,7 @@
         v-if="showConfirm"
         href="#"
         @click="$emit('confirm', close)"
-        class="inline border hover:bg-gray-50 focus:bg-gray-50 focus:shadow-sm bg-white p-2 bg-gray-50 hover:shadow transition-all text-center border-gray-300 focus:ring-gray-300 focus:ring-2 px-3 mx-1"
+        class="inline border hover:bg-gray-50 focus:bg-gray-50 focus:shadow-sm bg-white p-2 hover:shadow transition-all text-center border-gray-300 focus:ring-gray-300 focus:ring-2 px-3 mx-1"
       >
         <span class="inline-block">
           <span class="font-medium">Apply</span>
@@ -34,12 +34,12 @@
     </div>
     <slot name="header"></slot>
 
-    <buttons
+    <button
       class="absolute top-0 right-0 mt-5 mr-4 cursor-pointer"
       @click="closeDialog(close)"
     >
       <unicon class="w-5 h-5" name="multiply" fill />
-    </buttons>
+    </button>
   </vue-final-modal>
 </template>
 <script>
