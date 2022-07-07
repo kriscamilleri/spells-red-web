@@ -156,3 +156,11 @@
     </div>
   </div>
 </template>
+<script>
+import spellDisplay from "@/mixins/spellDisplay.js";
+export default {
+  mixins: [spellDisplay],
+};
+</script>
+
+<style></style>
