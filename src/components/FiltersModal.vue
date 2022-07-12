@@ -1,8 +1,5 @@
 <template>
-  <modal
-    class="justify-center"
-    :contentClass="'min-w-[2rem] w-1/2  max-w-[40rem]'"
-  >
+  <modal class="j" :contentClass="'min-w-[20rem] w-1/2  max-w-[40rem]'">
     <template v-slot:title>Filter & Sort</template>
     <h2 class="text-xl mb-6 font-bold">Sort</h2>
     <FilterRadioSection :items="sortList" name="Sort"></FilterRadioSection>

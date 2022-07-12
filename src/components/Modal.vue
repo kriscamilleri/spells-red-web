@@ -3,10 +3,10 @@
     v-slot="{ params, close }"
     v-bind="$attrs"
     class="flex"
-    classes="flex max-w-screen-xl m-auto mt-8 mb-8 left-0 right-0 "
+    classes="flex  justify-items-center items-center items-stretch max-w-screen-xl mx-auto mt-8 mb-8 "
     :content-class="
       contentClass +
-      ' relative flex flex-col content-start max-h-full mx-8 p-4 rounded bg-white'
+      ' relative flex flex-col content-start max-h-full mx-8 p-4 rounded bg-white mx-auto'
     "
   >
     <span class="mr-8 text-2xl font-bold">
@@ -33,7 +33,6 @@
       </a>
     </div>
     <slot name="header"></slot>
-
     <button
       class="absolute top-0 right-0 mt-5 mr-4 cursor-pointer"
       @click="closeDialog(close)"

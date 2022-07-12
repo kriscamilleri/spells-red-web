@@ -44,16 +44,21 @@
     <div v-if="activeLayout === 'Vertical Split'">
       <VerticalSplitLayout :spell="spell"></VerticalSplitLayout>
     </div>
+    <div v-else-if="activeLayout === 'Horizontal Split'">
+      <HorizontalSplitLayout :spell="spell"></HorizontalSplitLayout>
+    </div>
   </modal>
 </template>
 <style scoped></style>
 <script>
 import Modal from "@/components/Modal.vue";
 import VerticalSplitLayout from "@/components/spell-modal/VerticalSplitLayout.vue";
+import HorizontalSplitLayout from "@/components/spell-modal/HorizontalSplitLayout.vue";
 export default {
   components: {
     Modal,
     VerticalSplitLayout,
+    HorizontalSplitLayout,
   },
   props: {
     show: {
