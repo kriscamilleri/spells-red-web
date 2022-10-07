@@ -3,10 +3,10 @@
     v-slot="{ params, close }"
     v-bind="$attrs"
     class="flex"
-    classes="flex  justify-items-center items-center items-stretch max-w-screen-xl mx-auto mt-8 mb-8 "
+    classes="flex  justify-items-center items-center items-baseline max-w-screen-xl mx-auto mt-8 mb-8 "
     :content-class="
       contentClass +
-      ' relative flex flex-col content-start max-h-full mx-8 p-4 rounded bg-white mx-auto'
+      ' relative flex flex-col  max-h-full p-4 rounded bg-white   mx-auto'
     "
   >
     <span class="mr-8 text-2xl font-bold">
@@ -63,3 +63,8 @@ export default {
   },
 };
 </script>
+<style>
+.vfm__overlay.vfm--overlay.vfm--absolute.vfm--inset {
+  backdrop-filter: blur(5px);
+}
+</style>
