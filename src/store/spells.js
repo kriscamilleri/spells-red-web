@@ -30,6 +30,24 @@ export const spellStore = {
                     commit('setClassMeta', spells);
                     commit('setDataLoading', false);
                 });
+        },
+        fetchSpell({ commit, state }, spellObj) {
+            commit('setDataLoading', true);
+            fetch(`https://localhost:7169/redspell/${spellObj.repo}/${spellObj.id}`)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("HTTP error " + response.status);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log(data)
+                    const spells = data;
+                    commit('setSpells', spells);
+                    commit('setClassMeta', spells);
+                    commit('setDataLoading', false);
+                });
+            console.log(spellIdObj.spellId);
         }
     },
     mutations: {

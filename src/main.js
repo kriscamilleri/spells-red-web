@@ -180,7 +180,7 @@ app.use(VueKeycloak, {
     // silentCheckSsoRedirectUri: window.location.origin 
   },
   config: {
-    url: 'http://localhost:8080/',
+    url: 'http://localhost:8080/auth',
     clientId: 'spells-red-local',
     realm: 'SpellsRed'
   },

@@ -24,6 +24,10 @@ export default {
         return {
             message: 'Single Spell'
         }
-    }
+    },
+
+    mounted() {
+        this.$store.dispatch("fetchSpell", { id: this.$route.params.id, repo: 'PHB' });
+    },
 }
 </script>

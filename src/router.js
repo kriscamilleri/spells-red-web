@@ -12,7 +12,7 @@ const router = createRouter({
       component: Home,
       meta: {
         transition: 'slide-left',
-        isAuthenticated: false
+        isAuthenticated: true
       }
     },
     {
