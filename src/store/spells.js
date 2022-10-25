@@ -14,9 +14,16 @@ export const spellStore = {
         spellBookListNames: {},
     }),
     actions: {
-        fetchSpells({ commit, state }) {
+        fetchSpells({ commit, state }, { token }) {
+            console.log(token);
             commit('setDataLoading', true);
-            fetch(`https://localhost:7169/redspell/PHB`)
+            fetch(`https://localhost:7169/redspell/PHB`,
+                {
+                    mode: "cors",
+                    headers: {
+                      'Authorization': `Bearer ${token}`
+                    }
+                })
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error("HTTP error " + response.status);

@@ -194,7 +194,8 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch("fetchSpells");
+    const token = this.$keycloak.token;
+    this.$store.dispatch("fetchSpells", {token});
   },
   watch: {
     searchText() {
