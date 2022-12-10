@@ -12,8 +12,29 @@ export const spellStore = {
         spellBookSpells: [],
         selectedSpell: {},
         spellBookListNames: {},
+        repositories: [],
     }),
     actions: {
+        fetchRepositories({ commit, state }, { token }){
+            fetch(`https://localhost:7169/repository`,
+                {
+                    mode: "cors",
+                    headers: {
+                      'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("HTTP error " + response.status);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log(data)
+                    const repos = data;
+                    commit('setRepositories', repos);
+                });
+        },
         fetchSpells({ commit, state }, { token }) {
             console.log(token);
             commit('setDataLoading', true);
@@ -58,6 +79,9 @@ export const spellStore = {
         }
     },
     mutations: {
+        setRepositories(state, repos) {
+            state.repositories = repos;
+        },
         setDataLoading(state, isLoading) {
             state.dataLoading = isLoading;
         },
@@ -88,6 +112,10 @@ export const spellStore = {
         },
     },
     getters: {
+
+        getRepositories(state) {
+            return state.repositories;
+        },
         getSpells(state) {
             return state.spells;
         },

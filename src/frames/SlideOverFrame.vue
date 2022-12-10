@@ -8,10 +8,9 @@
         </nav>
         <hr />
         <div class="p-5">
-            <transition name="fade">
                 <div class="absolute" v-show="isSidebarShowing === true">
                     <div class>
-                        <div class="fixed flex flex-col top-0 left-0 max-w-sm w-full bg-white h-full border-r">
+                        <div class="fixed flex flex-col top-0 left-0 max-w-sm w-full bg-white h-full border-r z-10">
                             <nav
                                 class="px-5 py-3 border-b flex justify-between min-h-[4.18rem] max-h-[4.18rem] h-[4.18rem]">
                                 <a href="#" class="font-bold text-xl leading-loose" @click="toggleSidebar()">Sidebar</a>
@@ -52,7 +51,7 @@
                                     </li>
                                     <li class="px-5">
                                         <div class="flex flex-row items-center h-8">
-                                            <div class="tracking-wide text-lg text-gray-500">Repositories</div>
+                                            <div class="tracking-wide text-lg text-gray-500" >Repositories</div>
                                         </div>
                                     </li>
                                     <li>
@@ -66,6 +65,7 @@
                                     </li>
                                     <li>
                                         <a href="#"
+                                        @click="$router.push('Repositories')"
                                             class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 hover:text-gray-800 border-l-4 border-transparent hover:border-gray-500 pr-6">
                                             <span class="inline-flex text-lg justify-center items-center ml-4">
                                                 <unicon class="w-5 h-5" name="clouds" fill />
@@ -118,17 +118,16 @@
                         </div>
                     </div>
                 </div>
-            </transition>
             <slot></slot>
         </div>
     </div>
 </template>
-<style scoped>
-#frame {
+<style >
+/* #frame {
     background: white;
     height: 100%;
     width: 100%;
-}
+} */
 
 /* 
 .fade-enter-active,

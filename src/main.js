@@ -150,9 +150,7 @@ function setupAuthRouter(router) {
         app.config.globalProperties.$keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
       } else if (app.config.globalProperties.$keycloak.hasResourceRole('spells-red-base-role')) {
         // The user was authenticated, and has the app role
-        console.log(app.config.globalProperties.$keycloak)
         next()
-        console.log()
         app.config.globalProperties.$keycloak.updateToken(70)
           .then(() => {
             // next()
@@ -180,7 +178,7 @@ app.use(VueKeycloak, {
     // silentCheckSsoRedirectUri: window.location.origin 
   },
   config: {
-    url: 'http://localhost:8080/auth',
+    url: 'http://localhost:8080/',
     clientId: 'spells-red-local',
     realm: 'SpellsRed'
   },

@@ -18,7 +18,9 @@
   transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   width: 100%;
   height: 100%;
-}
+  background:white;
+  box-shadow: 0 0 0 1px black; /* 'border-style' not available (dashed, solid, etc) */
+  }
 
 .scale-slide-enter-from {
   left: -100%;
