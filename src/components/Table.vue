@@ -17,21 +17,18 @@
     <div class="px-2">
         <div class="container mx-auto ">
             <div class="flex justify-between items-center border-b border-black ">
-                <div class="container mx-auto  items-end my-2 ">
-                    <div class="border border-gray-300 border-b bg-gray-50 inline-flex min-w-[18.7rem] mr-2 ">
-                        <label for="#search" class="my-2.5 px-3 inline font-medium ">Search</label>
+                <div class="container mx-auto my-2 md:my-0 flex justify-between flex-wrap">
+                    <div class="border border-gray-300 border-b bg-gray-50 inline-flex min-w-[18.7rem] mr-2 mb-2 ">
+                        <label for="#search" class="my-2 px-3 inline font-medium ">Search</label>
                         <input id="search"
                             class="bg-white leading-loose m-0 pl-3 px-2 py-1 min-w-[14rem]   focus:ring-2 focus:ring-gray-300 focus:outline-0"
                             v-model="search" />
                     </div>
-                    <!-- <input class="border border-gray-300 bg-gray-50 inline p-2 mr-2 mb-2 md:mb-0 -ml-2" type="text" placeholder="Search" v-model="search" /> -->
-                    <!-- 4 buttons: reset selection, add repository, help -->
-                    <div class="inline-flex flex-row my-2 space-x-2 " v-if="buttons.length > 0">
-
-                        <button v-for="(button,i ) in buttons" :key="i" @click="$emit(button.action)" class="border  bg-gray-100 text-black font-bold py-2 px-4 ">
+                    <div class="inline-flex space-x-2 mb-2" v-if="buttons.length > 0">
+                        <button v-for="(button, i ) in buttons" :key="i" @click="$emit(button.action)"
+                            class="border  bg-gray-100 text-black font-bold py-2 px-4 ">
                             {{ button.text }}
                         </button>
-                        
                     </div>
                 </div>
             </div>
@@ -134,9 +131,6 @@ export default {
             default: [{
                 text: "Add Repository",
                 action: "addRepository"
-            },{
-                text: "Add Repository2",
-                action: "addRepository2"
             }]
         }
     },
@@ -162,7 +156,6 @@ export default {
             }
         },
         keys() {
-            console.log(this.tableData)
             // get keys from first object in data
             if (this.tableData && this.tableData.length > 0) {
                 return Object.keys(this.tableData[Object.keys(this.tableData)[0]]);
@@ -181,7 +174,6 @@ export default {
             }
 
             // sort data ascending or descending
-
             if (this.sortKey) {
                 if (this.sortOrder === 'asc') {
                     data = data.slice().sort((a, b) => {

@@ -5,8 +5,8 @@
                 <h4 class="font-medium">Home</h4>
             </router-link>
         </template>
-        <Table :tableData="repositories" header="Repositories" description="A repository is a source of spells. Here you can toggle your
-                        active repositories, review repository summaries, or contribute a new repository." ></Table>
+        <Table :tableData="repositories" header="Repositories" :buttons="buttons" description="A repository is a source of spells. Here you can toggle your
+                        active repositories, review repository summaries, or contribute a new repository."></Table>
     </SlideOverFrame>
 
 </template>
@@ -19,6 +19,19 @@ export default {
     components: {
         SlideOverFrame,
         Table
+    },
+    data() {
+        return {
+            buttons: [{
+                text: "Add Repository",
+                action: "addRepository",
+
+            },
+            {
+                text: "Reset",
+                action: "resetRepositorySelection"
+            }]
+        }
     },
     computed: {
         repositories() {
