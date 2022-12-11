@@ -5,7 +5,8 @@
                 <h4 class="font-medium">Home</h4>
             </router-link>
         </template>
-        <Table :tableData="repositories" ></Table>
+        <Table :tableData="repositories" header="Repositories" description="A repository is a source of spells. Here you can toggle your
+                        active repositories, review repository summaries, or contribute a new repository." ></Table>
     </SlideOverFrame>
 
 </template>

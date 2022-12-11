@@ -178,7 +178,7 @@ app.use(VueKeycloak, {
     // silentCheckSsoRedirectUri: window.location.origin 
   },
   config: {
-    url: 'http://localhost:8080/auth/',
+    url: 'http://localhost:8080/',
     clientId: 'spells-red-local',
     realm: 'SpellsRed'
   },
