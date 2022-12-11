@@ -1,8 +1,23 @@
 <template>
-    <div class="container mx-auto">
-        <div class="flex justify-between items-center mb-4">
-            <input class="border-2 p-2 " type="text" placeholder="Search" v-model="search" />
+    <div class="flex justify-between items-center mb-4 border-b p-2 bg-gray-100">
+        <div class="container mx-auto">
+            <input class="border-2 p-2 mr-2" type="text" placeholder="Search" v-model="search" />
+            <!-- 4 buttons: reset selection, add repository, help -->
+            <div class="inline-flex justify-between items-center">
+                <button class="border border-black mx-2  bg-white text-black font-bold py-2 px-4">
+                    Reset Selection
+                </button>
+                <button class="border mx-2  bg-white text-black font-bold py-2 px-4">
+                    Add Repository
+                </button>
+                <button class="border mx-2  bg-white text-black font-bold py-2 px-4">
+                    Help
+                </button>
+            </div>
+
         </div>
+    </div>
+    <div class="container mx-auto">
         <div class="overflow-x-auto">
             <table class="border-collapse text-left w-full">
                 <thead>
@@ -10,7 +25,6 @@
                         <th class="border px-4 py-2">Select</th>
                         <th class="border px-4 py-2 " v-for="key in keys.filter(c => c !== 'isTableChecked')" :key="key"
                             @click="sortBy(key)">
-
                             <label class="cursor-pointer"
                                 @click="sortOrder === 'asc' ? sortOrder = 'desc' : sortOrder = 'asc'">
                                 {{ toTitleCase(key) }}
@@ -32,8 +46,7 @@
             </table>
             <!-- two buttons  -->
             <div class="flex justify-between items-center mt-4">
-                <button class="border bg-gray-100  font-bold py-2 px-4 rounded"
-                    v-if="(currentPage) > 1" @click="currentPage--">
+                <button class="border bg-gray-100  font-bold py-2 px-4" v-if="(currentPage) > 1" @click="currentPage--">
                     Previous
                 </button>
                 <span class="mx-auto">
@@ -62,7 +75,7 @@
                     </span>
 
                 </span>
-                <button class="border bg-gray-100 font-bold py-2 px-4 rounded"
+                <button class="border bg-gray-100 font-bold py-2 px-4"
                     v-if="(tableData.length > pageSize * currentPage)" @click="currentPage++">
                     Next
                 </button>
